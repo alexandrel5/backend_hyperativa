@@ -1,9 +1,9 @@
 package com.hyperativa.cards.controller;
 
 import com.hyperativa.cards.constants.CardsConstants;
-import com.hyperativa.cards.dto.CardDto;
 import com.hyperativa.cards.dto.ResponseDto;
-import com.hyperativa.cards.service.ICardsService;
+import com.hyperativa.cards.dto.UserDto;
+import com.hyperativa.cards.service.IUsersService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class UsersController {
 
-    private ICardsService iCardsService;
+    private IUsersService iUsersService;
 
-    @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createCard(@RequestBody CardDto cardDto){
+    @PostMapping("/user")
+    public ResponseEntity<ResponseDto> createUser(@RequestBody UserDto userDto){
 
-    iCardsService.createCard(cardDto);
+        iUsersService.createUser(userDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

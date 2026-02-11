@@ -13,8 +13,8 @@ import lombok.Setter;
 @Setter
 public class User extends BaseEntity {
 
-    @Column(nullable = false, unique = true, length = 50)
-    private String username;
+    @Column(name = "username", nullable = false, unique = true, length = 50)
+    private String userName;
 
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;

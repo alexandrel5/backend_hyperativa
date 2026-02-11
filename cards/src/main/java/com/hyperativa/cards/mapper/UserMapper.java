@@ -5,14 +5,14 @@ import com.hyperativa.cards.entity.User;
 
 public class UserMapper {
     public static UserDto mapToUserDto(User user, UserDto userDto){
-        userDto.setUsername(user.getUsername());
+        userDto.setUserName(user.getUserName());
         userDto.setPasswordHash(user.getPasswordHash());
         return userDto;
     }
 
     public static User mapToUser(UserDto userDto, User user){
-        user.setUsername(userDto.getUsername());
-        user.setUsername(userDto.getPasswordHash());
+        user.setUserName(userDto.getUserName());
+        user.setPasswordHash(userDto.getPasswordHash());
         return user;
     }
 
