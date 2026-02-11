@@ -31,6 +31,7 @@ public class UsersServiceImpl implements IUsersService {
             throw new CardAlreadyExistsException("User already registered with given name"
                     + userDto.getUserName());
         }
+        //String hashedPassword = passwordEncoder.encode(userDto.getPasswordHash());
         user.setPasswordHash(userDto.getPasswordHash());
         user.setCreatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
