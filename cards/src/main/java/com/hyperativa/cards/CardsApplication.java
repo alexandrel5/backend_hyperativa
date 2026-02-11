@@ -1,13 +1,13 @@
-package com.hyperativa.card;
+package com.hyperativa.cards;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CardApplication {
+public class CardsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CardApplication.class, args);
+		SpringApplication.run(CardsApplication.class, args);
 	}
 
 }

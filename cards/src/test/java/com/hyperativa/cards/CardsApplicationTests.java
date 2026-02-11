@@ -1,10 +1,10 @@
-package com.hyperativa.card;
+package com.hyperativa.cards;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CardApplicationTests {
+class CardsApplicationTests {
 
 	@Test
 	void contextLoads() {
