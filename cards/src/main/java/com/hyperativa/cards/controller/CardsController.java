@@ -20,7 +20,7 @@ public class CardsController {
 
     private ICardsService iCardsService;
 
-    @PostMapping("/create")
+    @PostMapping("/card")
     public ResponseEntity<ResponseDto> createCard(@RequestBody CardDto cardDto){
 
     iCardsService.createCard(cardDto);

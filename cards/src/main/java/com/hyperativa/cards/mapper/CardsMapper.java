@@ -11,7 +11,6 @@ public class CardsMapper {
     }
 
     public static Cards mapToCards(CardDto cardDto, Cards cards){
-        cards.setId(cardDto.getUser().getId());
         cards.setUser(cardDto.getUser());
         cards.setCardNumber(cardDto.getCardNumber());
         return cards;
