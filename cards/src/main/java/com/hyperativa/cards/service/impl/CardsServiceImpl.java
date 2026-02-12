@@ -1,5 +1,6 @@
 package com.hyperativa.cards.service.impl;
 
+import com.hyperativa.cards.constants.CardProcessingConstants;
 import com.hyperativa.cards.dto.CardDto;
 import com.hyperativa.cards.dto.card.CardBatchResultDto;
 import com.hyperativa.cards.dto.card.CardProcessLineDto;
@@ -44,14 +45,17 @@ public class CardsServiceImpl implements ICardsService {
         String cardNumber = normalizeCardNumber(cardDto.getCardNumber());
 
         if (cardNumber == null || cardNumber.isBlank()) {
-            return new CardProcessLineDto(null, "ERROR", "Card number is required", null);
+            return new CardProcessLineDto(null,
+                    CardProcessingConstants.STATUS_ERROR,
+                    CardProcessingConstants.MSG_CARD_NUMBER_REQUIRED,
+                    null);
         }
 
         List<String> singleList = List.of(cardNumber);
 
         CardBatchResultDto batchResult = processCardsInternal(singleList, user);
 
-        return batchResult.details().get(0); // safe because we sent exactly 1
+        return batchResult.details().get(0);
     }
 
     @Transactional
@@ -63,11 +67,20 @@ public class CardsServiceImpl implements ICardsService {
         try {
             extractedCards = extractionService.extractAndValidateCards(file);
         } catch (IOException e) {
-            return failedBatch("Cannot read file: " + e.getMessage());
+
+            return new CardBatchResultDto(
+                    CardProcessingConstants.STATUS_FAILED,
+                    CardProcessingConstants.MSG_CANNOT_READ_FILE,
+                    List.of()
+            );
         }
 
         if (extractedCards.isEmpty()) {
-            return failedBatch("No valid card numbers found in file");
+            return new CardBatchResultDto(
+                    CardProcessingConstants.STATUS_FAILED,
+                    CardProcessingConstants.MSG_NO_VALID_CARDS_IN_FILE,
+                    List.of()
+            );
         }
 
         CardBatchResultDto result = processCardsInternal(extractedCards, user);
@@ -99,7 +112,12 @@ public class CardsServiceImpl implements ICardsService {
         for (String cardNumber : toProcess) {
 
             if (alreadyExists.contains(cardNumber)) {
-                lines.add(new CardProcessLineDto(cardNumber, "ALREADY_EXISTS", "Card already registered", null));
+                lines.add(new CardProcessLineDto(
+                        cardNumber,
+                        CardProcessingConstants.STATUS_ALREADY_EXISTS,
+                        CardProcessingConstants.MSG_ALREADY_REGISTERED,
+                        null
+                ));
                 alreadyExistsCount++;
                 continue;
             }
@@ -112,7 +130,12 @@ public class CardsServiceImpl implements ICardsService {
             // entity.setBrand(...);
 
             toSave.add(entity);
-            lines.add(new CardProcessLineDto(cardNumber, "SUCCESS", "Card will be created", null));
+            lines.add(new CardProcessLineDto(
+                    cardNumber,
+                    CardProcessingConstants.STATUS_SUCCESS,
+                    CardProcessingConstants.MSG_CARD_WILL_BE_CREATED,
+                    null
+            ));
         }
 
         if (!toSave.isEmpty()) {
@@ -143,12 +166,12 @@ public class CardsServiceImpl implements ICardsService {
 
     private User getUserOrThrow(String username) {
         return userRepository.findByUserName(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found: " + username));
+                .orElseThrow(() -> new IllegalArgumentException(String.format(CardProcessingConstants.MSG_USER_NOT_FOUND, username)));
     }
 
-    private CardBatchResultDto failedBatch(String msg) {
-        return new CardBatchResultDto("FAILED", msg, List.of());
-    }
+//    private CardBatchResultDto failedBatch(String msg) {
+//        return new CardBatchResultDto("FAILED", msg, List.of());
+//    }
 
     private String normalizeCardNumber(String raw) {
         if (raw == null) return null;

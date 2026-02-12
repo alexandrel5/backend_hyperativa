@@ -1,6 +1,6 @@
 package com.hyperativa.cards.controller;
 
-import com.hyperativa.cards.constants.FileUploadConstants;
+import com.hyperativa.cards.constants.CardProcessingConstants;
 import com.hyperativa.cards.dto.CardDto;
 import com.hyperativa.cards.dto.card.CardBatchResultDto;
 import com.hyperativa.cards.dto.card.CardProcessLineDto;
@@ -64,7 +64,7 @@ public class CardsController {
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadAndExtractCards(
             @RequestParam("file")
-            @NotNull(message = FileUploadConstants.ERR_FILE_REQUIRED)
+            @NotNull(message = CardProcessingConstants.ERR_FILE_REQUIRED)
             MultipartFile file,
             @RequestParam(value = "username", required = false) String formUsername) {
 
