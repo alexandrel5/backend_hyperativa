@@ -1,27 +1,47 @@
 package com.hyperativa.cards.controller;
 
 import com.hyperativa.cards.constants.CardsConstants;
+import com.hyperativa.cards.constants.FileUploadConstants;
 import com.hyperativa.cards.dto.CardDto;
+import com.hyperativa.cards.dto.CardProcessResultDto;
 import com.hyperativa.cards.dto.ResponseDto;
+import com.hyperativa.cards.dto.fileupload.CardBatchResultDto;
 import com.hyperativa.cards.service.ICardsService;
+import com.hyperativa.cards.service.fileupload.CardExtractionService;
+import com.hyperativa.cards.service.fileupload.FileUploadValidationService;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/card/v1", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
+@Validated
 public class CardsController {
 
+    private static final Logger log = LoggerFactory.getLogger(CardsController.class);
+
     private ICardsService iCardsService;
+    private final FileUploadValidationService validationService;
+    private final CardExtractionService extractionService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createCard(@RequestBody CardDto cardDto){
+    public ResponseEntity<ResponseDto> createCard(@RequestBody CardDto cardDto) {
 
-    iCardsService.createCard(cardDto);
+        iCardsService.createCard(cardDto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -31,9 +51,44 @@ public class CardsController {
 
     @GetMapping("/fetch")
     public ResponseEntity<CardDto> fetchCardDetails(@RequestParam
-                                                     @Pattern(regexp="(^$|[0-9]{10})",message = "Card number must be 10 digits")
-                                                     String mobileNumber) {
+                                                    @Pattern(regexp = "(^$|[0-9]{10})", message = "Card number must be 10 digits")
+                                                    String mobileNumber) {
         CardDto cardsDto = iCardsService.fetchCard(mobileNumber);
         return ResponseEntity.status(HttpStatus.OK).body(cardsDto);
     }
+
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadAndExtractCards(
+            @RequestParam("file")
+            @NotNull(message = FileUploadConstants.ERR_FILE_REQUIRED)
+            MultipartFile file,
+            @RequestParam(value = "username", required = false) String formUsername) {
+
+        var validation = validationService.validate(file);
+        if (!validation.isValid()) {
+            return ResponseEntity.badRequest().body(validation.message());
+        }
+        String targetUsername;
+
+        if (StringUtils.hasText(formUsername)) {
+            targetUsername = formUsername;
+        } else {
+            return ResponseEntity.badRequest()
+                    .body(new CardBatchResultDto("ERROR", "User not identified", List.of()));
+        }
+
+        String filename = validation.filename();
+        log.info("Processing file: {}", filename);
+
+        try {
+            CardBatchResultDto result = iCardsService.processCardsFile(file, targetUsername);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Card batch failed", e);
+            return ResponseEntity.status(422)
+                    .body(new CardBatchResultDto("ERROR", e.getMessage(), List.of()));
+        }
+
+    }
+
 }
