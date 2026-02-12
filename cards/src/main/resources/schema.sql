@@ -1,6 +1,6 @@
 -- Create database
-CREATE SCHEMA IF NOT EXISTS `card_management_db`;
-SET SCHEMA `card_management_db`;
+CREATE DATABASE IF NOT EXISTS `card_management_db`;
+USE `card_management_db`;
 
 -- Create users table for authentication
 CREATE TABLE IF NOT EXISTS `users` (
@@ -26,6 +26,6 @@ CREATE TABLE IF NOT EXISTS `api_logs` (
     `action` VARCHAR(255) NOT NULL,
     `request_data` TEXT,
     `response_data` TEXT,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL
 );
