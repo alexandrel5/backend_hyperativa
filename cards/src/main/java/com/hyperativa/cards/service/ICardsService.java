@@ -1,13 +1,14 @@
 package com.hyperativa.cards.service;
 
 import com.hyperativa.cards.dto.CardDto;
-import com.hyperativa.cards.dto.fileupload.CardBatchResultDto;
+import com.hyperativa.cards.dto.card.CardBatchResultDto;
+import com.hyperativa.cards.dto.card.CardProcessLineDto;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ICardsService {
 
 
-    void createCard(CardDto cardDto);
+    CardProcessLineDto createSingleCard(CardDto cardDto);
 
     CardBatchResultDto processCardsFile(MultipartFile file, String username);
 

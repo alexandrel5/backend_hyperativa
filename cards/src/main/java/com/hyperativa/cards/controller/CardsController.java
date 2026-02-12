@@ -1,11 +1,9 @@
 package com.hyperativa.cards.controller;
 
-import com.hyperativa.cards.constants.CardsConstants;
 import com.hyperativa.cards.constants.FileUploadConstants;
 import com.hyperativa.cards.dto.CardDto;
-import com.hyperativa.cards.dto.CardProcessResultDto;
-import com.hyperativa.cards.dto.ResponseDto;
-import com.hyperativa.cards.dto.fileupload.CardBatchResultDto;
+import com.hyperativa.cards.dto.card.CardBatchResultDto;
+import com.hyperativa.cards.dto.card.CardProcessLineDto;
 import com.hyperativa.cards.service.ICardsService;
 import com.hyperativa.cards.service.fileupload.CardExtractionService;
 import com.hyperativa.cards.service.fileupload.FileUploadValidationService;
@@ -23,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -39,13 +36,20 @@ public class CardsController {
     private final CardExtractionService extractionService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createCard(@RequestBody CardDto cardDto) {
+    public ResponseEntity<?> createCard(@RequestBody CardDto cardDto) {
 
-        iCardsService.createCard(cardDto);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new ResponseDto(CardsConstants.STATUS_201, CardsConstants.MESSAGE_201));
+        try {
+            CardProcessLineDto result = iCardsService.createSingleCard(cardDto);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Card batch failed", e);
+            return ResponseEntity.status(422)
+                    .body(new CardBatchResultDto("ERROR", e.getMessage(), List.of()));
+        }
+//
+//        return ResponseEntity
+//                .status(HttpStatus.CREATED)
+//                .body(new ResponseDto(CardsConstants.STATUS_201, CardsConstants.MESSAGE_201));
 
     }
 
