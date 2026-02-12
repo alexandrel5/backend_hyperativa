@@ -10,3 +10,9 @@ spring:
   sql:
     init:
       mode: always
+#File Upload
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
