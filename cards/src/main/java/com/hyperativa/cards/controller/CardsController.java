@@ -3,6 +3,7 @@ package com.hyperativa.cards.controller;
 import com.hyperativa.cards.constants.CardProcessingConstants;
 import com.hyperativa.cards.dto.CardDto;
 import com.hyperativa.cards.dto.card.CardBatchResultDto;
+import com.hyperativa.cards.dto.card.CardLookupResponse;
 import com.hyperativa.cards.dto.card.CardProcessLineDto;
 import com.hyperativa.cards.service.ICardsService;
 import com.hyperativa.cards.service.fileupload.CardExtractionService;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api/card/v1", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -93,6 +95,16 @@ public class CardsController {
                     .body(new CardBatchResultDto("ERROR", e.getMessage(), List.of()));
         }
 
+    }
+
+    @PostMapping("/lookup")
+    public ResponseEntity<CardLookupResponse> lookupCardPost(
+            @RequestBody Map<String, String> payload) {
+
+        String cardNumber = payload.get("cardNumber");
+        return ResponseEntity.ok(
+                iCardsService.lookupCard(cardNumber)
+                        .orElse(new CardLookupResponse(false, null, "Invalid or missing card number")));
     }
 
 }

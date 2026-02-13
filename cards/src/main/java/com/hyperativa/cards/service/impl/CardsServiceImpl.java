@@ -3,6 +3,7 @@ package com.hyperativa.cards.service.impl;
 import com.hyperativa.cards.constants.CardProcessingConstants;
 import com.hyperativa.cards.dto.CardDto;
 import com.hyperativa.cards.dto.card.CardBatchResultDto;
+import com.hyperativa.cards.dto.card.CardLookupResponse;
 import com.hyperativa.cards.dto.card.CardProcessLineDto;
 import com.hyperativa.cards.entity.Cards;
 import com.hyperativa.cards.entity.User;
@@ -169,10 +170,6 @@ public class CardsServiceImpl implements ICardsService {
                 .orElseThrow(() -> new IllegalArgumentException(String.format(CardProcessingConstants.MSG_USER_NOT_FOUND, username)));
     }
 
-//    private CardBatchResultDto failedBatch(String msg) {
-//        return new CardBatchResultDto("FAILED", msg, List.of());
-//    }
-
     private String normalizeCardNumber(String raw) {
         if (raw == null) return null;
         return raw.replaceAll("\\D", ""); // remove spaces, dashes, etc.
@@ -189,6 +186,24 @@ public class CardsServiceImpl implements ICardsService {
                 () -> new ResourceNotFoundException("Card", "cardNumber", cardNumber)
         );
         return CardsMapper.mapToCardsDto(cards, new CardDto());
+    }
+
+
+    private Optional<Long> getCardSystemIdByNumber(String cardNumber) {
+        if (cardNumber == null || cardNumber.trim().isBlank()) {
+            return Optional.empty();
+        }
+
+        String normalized = cardNumber.replaceAll("\\D", ""); // remove spaces, -, etc.
+
+        return cardsRepository.findIdByCardNumber(normalized);
+    }
+
+    @Override
+    public Optional<CardLookupResponse> lookupCard(String cardNumber) {
+        return getCardSystemIdByNumber(cardNumber)
+                .map(id -> new CardLookupResponse(true, id, null))
+                .or(() -> Optional.of(new CardLookupResponse(false, null, "Card not found")));
     }
 
 
