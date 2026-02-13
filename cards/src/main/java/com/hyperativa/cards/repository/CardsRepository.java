@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Repository
 public interface CardsRepository extends JpaRepository<Cards, User> {
@@ -18,5 +19,5 @@ public interface CardsRepository extends JpaRepository<Cards, User> {
     List<Cards> findByCardNumberIn(Set<String> cardNumbers);
 
     @Query("SELECT c.id FROM Cards c WHERE c.cardNumber = :cardNumber")//mean named parameter
-    Optional<Long> findIdByCardNumber(@Param("cardNumber") String cardNumber);
+    Optional<UUID> findIdByCardNumber(@Param("cardNumber") String cardNumber);
 }

@@ -1,8 +1,6 @@
 package com.hyperativa.cards.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +10,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "username", nullable = false, unique = true, length = 50)
     private String userName;

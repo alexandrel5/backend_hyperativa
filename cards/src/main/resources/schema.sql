@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Create cards table for storing card numbers securely
 CREATE TABLE IF NOT EXISTS `cards` (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id` BINARY(16) PRIMARY KEY,
     `user_id` INT NOT NULL,
     `card_number` VARCHAR(19) NOT NULL UNIQUE, -- Change this to VARCHAR(19) for credit cards with spaces or dashes
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),

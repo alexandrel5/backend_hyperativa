@@ -127,23 +127,22 @@ public class CardsServiceImpl implements ICardsService {
             entity.setCardNumber(cardNumber);
             entity.setUser(user);
             entity.setCreatedAt(LocalDateTime.now());
-            // entity.setMaskedNumber(...);
-            // entity.setBrand(...);
 
             toSave.add(entity);
-            lines.add(new CardProcessLineDto(
-                    cardNumber,
-                    CardProcessingConstants.STATUS_SUCCESS,
-                    CardProcessingConstants.MSG_CARD_WILL_BE_CREATED,
-                    null
-            ));
         }
 
         if (!toSave.isEmpty()) {
             List<Cards> saved = cardsRepository.saveAll(toSave);
             savedCount = saved.size();
 
-            // Optional: update lines with real IDs (if CardProcessLine is mutable or rebuild)
+            for (var card : saved) {
+                lines.add(new CardProcessLineDto(
+                        card.getCardNumber(),
+                        CardProcessingConstants.STATUS_SUCCESS,
+                        CardProcessingConstants.MSG_CARD_CREATED_SUCCESSFULLY,
+                        card.getId()
+                ));
+            }
         }
 
         String status = savedCount == toProcess.size() ? "SUCCESS"
@@ -189,7 +188,7 @@ public class CardsServiceImpl implements ICardsService {
     }
 
 
-    private Optional<Long> getCardSystemIdByNumber(String cardNumber) {
+    private Optional<UUID> getCardSystemIdByNumber(String cardNumber) {
         if (cardNumber == null || cardNumber.trim().isBlank()) {
             return Optional.empty();
         }

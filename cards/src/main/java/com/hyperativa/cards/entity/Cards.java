@@ -3,6 +3,9 @@ package com.hyperativa.cards.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
 
 
 @Entity
@@ -10,6 +13,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Cards extends BaseEntity {
+
+    @Id
+    @GeneratedValue
+    @UuidGenerator(style = UuidGenerator.Style.RANDOM)   // or .TIME / .AUTO
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

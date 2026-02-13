@@ -50,7 +50,7 @@ public final class CardProcessingConstants {
 
     public static final String MSG_ALREADY_REGISTERED = "Card already registered";
     public static final String MSG_CARD_WILL_BE_CREATED = "Card will be created";
-    public static final String MSG_CARD_QUEUED_FOR_CREATION = "Card queued for creation";
+    public static final String MSG_CARD_CREATED_SUCCESSFULLY = "Card created successfully";
 
     // Summary message templates
     public static final String TEMPLATE_SUMMARY_SINGLE_OR_BATCH =
