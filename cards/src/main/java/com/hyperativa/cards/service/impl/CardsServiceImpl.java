@@ -120,7 +120,7 @@ public class CardsServiceImpl implements ICardsService {
             hashToOriginal.put(hash, pan);   // first occurrence wins
             cardHashes.add(hash);
         }
-// 3. Bulk check which hashes already exist in database
+        // 3. Bulk check which hashes already exist in database
         List<Cards> existing = cardsRepository.findByCardHashIn(cardHashes);
         Set<String> existingHashes = existing.stream()
                 .map(Cards::getCardHash)
@@ -152,38 +152,10 @@ public class CardsServiceImpl implements ICardsService {
             entity.setCardHash(hash);
             entity.setLastFour(CardHashUtil.extractLastFour(originalPan));
             entity.setUser(user);
-            entity.setCreatedAt(LocalDateTime.now());
-            // entity.setBrand(CardHashUtil.detectBrand(originalPan)); // optional
 
             toSave.add(entity);
 
-            lines.add(new CardProcessLineDto(
-                    originalPan,
-                    CardProcessingConstants.STATUS_SUCCESS,
-                    "Card queued for creation",
-                    null   // id filled later if needed
-            ));
         }
-//        for (String cardNumber : toProcess) {
-//
-//            if (alreadyExists.contains(cardNumber)) {
-//                lines.add(new CardProcessLineDto(
-//                        cardNumber,
-//                        CardProcessingConstants.STATUS_ALREADY_EXISTS,
-//                        CardProcessingConstants.MSG_ALREADY_REGISTERED,
-//                        null
-//                ));
-//                alreadyExistsCount++;
-//                continue;
-//            }
-//
-//            Cards entity = new Cards();
-//            entity.setCardNumber(cardNumber);
-//            entity.setUser(user);
-//            entity.setCreatedAt(LocalDateTime.now());
-//
-//            toSave.add(entity);
-//        }
 
         if (!toSave.isEmpty()) {
             List<Cards> saved = cardsRepository.saveAll(toSave);
