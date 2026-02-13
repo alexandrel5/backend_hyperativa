@@ -1,23 +1,23 @@
 package com.hyperativa.cards.repository;
 
 import com.hyperativa.cards.entity.Cards;
-import com.hyperativa.cards.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
-public interface CardsRepository extends JpaRepository<Cards, User> {
-    Optional<Cards> findByCardNumber(String cardNumber);
+public interface CardsRepository extends JpaRepository<Cards, UUID> {
+    boolean existsByCardHash(String cardHash);
 
-    List<Cards> findByCardNumberIn(Set<String> cardNumbers);
+    @Query("SELECT c.id FROM Cards c WHERE c.cardHash = :hash")
+    Optional<UUID> findIdByCardHash(@Param("hash") String cardHash);
 
-    @Query("SELECT c.id FROM Cards c WHERE c.cardNumber = :cardNumber")//mean named parameter
-    Optional<UUID> findIdByCardNumber(@Param("cardNumber") String cardNumber);
+    List<Cards> findByCardHashIn(Collection<String> hashes);
+
+    // Optional helpers
+    Optional<Cards> findByCardHash(String cardHash);
+    boolean existsByLastFourAndUserId(String lastFour, UUID userId);
 }

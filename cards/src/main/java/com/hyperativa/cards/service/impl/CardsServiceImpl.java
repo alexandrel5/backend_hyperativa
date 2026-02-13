@@ -14,6 +14,7 @@ import com.hyperativa.cards.repository.CardsRepository;
 import com.hyperativa.cards.repository.UserRepository;
 import com.hyperativa.cards.service.ICardsService;
 import com.hyperativa.cards.service.fileupload.CardExtractionService;
+import com.hyperativa.cards.util.CardHashUtil;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -92,29 +93,52 @@ public class CardsServiceImpl implements ICardsService {
 
     private CardBatchResultDto processCardsInternal(List<String> cardNumbers, User user) {
 
-        // Deduplicate - keep first occurrence
-        LinkedHashSet<String> uniqueSet = new LinkedHashSet<>(cardNumbers);
-        List<String> toProcess = new ArrayList<>(uniqueSet);
+        if (cardNumbers == null || cardNumbers.isEmpty()) {
+            return new CardBatchResultDto(
+                    CardProcessingConstants.STATUS_FAILED,
+                    "No card numbers provided",
+                    List.of()
+            );
+        }
+
+        // 1. Normalize & deduplicate (keep first occurrence order)
+        List<String> toProcess = cardNumbers.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .distinct()                     // or keep LinkedHashSet if order matters
+                .toList();
+
         int duplicatesIgnored = cardNumbers.size() - toProcess.size();
 
-        // Check existing in DB
-        Set<String> numbersToCheck = new HashSet<>(toProcess);
-        Set<String> alreadyExists = cardsRepository.findByCardNumberIn(numbersToCheck)
-                .stream()
-                .map(Cards::getCardNumber)
+        // 2. Compute hashes for cards we will check
+        Map<String, String> hashToOriginal = new LinkedHashMap<>(); // preserve order
+        Set<String> cardHashes = new HashSet<>();
+
+        for (String pan : toProcess) {
+            String hash = CardHashUtil.hashCardNumber(pan);
+            hashToOriginal.put(hash, pan);   // first occurrence wins
+            cardHashes.add(hash);
+        }
+// 3. Bulk check which hashes already exist in database
+        List<Cards> existing = cardsRepository.findByCardHashIn(cardHashes);
+        Set<String> existingHashes = existing.stream()
+                .map(Cards::getCardHash)
                 .collect(Collectors.toSet());
 
+        // 4. Prepare results and entities to save
         List<CardProcessLineDto> lines = new ArrayList<>();
         List<Cards> toSave = new ArrayList<>();
 
         int savedCount = 0;
         int alreadyExistsCount = 0;
 
-        for (String cardNumber : toProcess) {
+        for (String hash : hashToOriginal.keySet()) {   // ordered by first appearance
+            String originalPan = hashToOriginal.get(hash);
 
-            if (alreadyExists.contains(cardNumber)) {
+            if (existingHashes.contains(hash)) {
                 lines.add(new CardProcessLineDto(
-                        cardNumber,
+                        originalPan,                            // show original or masked
                         CardProcessingConstants.STATUS_ALREADY_EXISTS,
                         CardProcessingConstants.MSG_ALREADY_REGISTERED,
                         null
@@ -123,13 +147,43 @@ public class CardsServiceImpl implements ICardsService {
                 continue;
             }
 
+            // New card → prepare entity
             Cards entity = new Cards();
-            entity.setCardNumber(cardNumber);
+            entity.setCardHash(hash);
+            entity.setLastFour(CardHashUtil.extractLastFour(originalPan));
             entity.setUser(user);
             entity.setCreatedAt(LocalDateTime.now());
+            // entity.setBrand(CardHashUtil.detectBrand(originalPan)); // optional
 
             toSave.add(entity);
+
+            lines.add(new CardProcessLineDto(
+                    originalPan,
+                    CardProcessingConstants.STATUS_SUCCESS,
+                    "Card queued for creation",
+                    null   // id filled later if needed
+            ));
         }
+//        for (String cardNumber : toProcess) {
+//
+//            if (alreadyExists.contains(cardNumber)) {
+//                lines.add(new CardProcessLineDto(
+//                        cardNumber,
+//                        CardProcessingConstants.STATUS_ALREADY_EXISTS,
+//                        CardProcessingConstants.MSG_ALREADY_REGISTERED,
+//                        null
+//                ));
+//                alreadyExistsCount++;
+//                continue;
+//            }
+//
+//            Cards entity = new Cards();
+//            entity.setCardNumber(cardNumber);
+//            entity.setUser(user);
+//            entity.setCreatedAt(LocalDateTime.now());
+//
+//            toSave.add(entity);
+//        }
 
         if (!toSave.isEmpty()) {
             List<Cards> saved = cardsRepository.saveAll(toSave);
@@ -137,7 +191,7 @@ public class CardsServiceImpl implements ICardsService {
 
             for (var card : saved) {
                 lines.add(new CardProcessLineDto(
-                        card.getCardNumber(),
+                        card.getCardHash(),
                         CardProcessingConstants.STATUS_SUCCESS,
                         CardProcessingConstants.MSG_CARD_CREATED_SUCCESSFULLY,
                         card.getId()
@@ -181,7 +235,8 @@ public class CardsServiceImpl implements ICardsService {
      */
     @Override
     public CardDto fetchCard(String cardNumber) {
-        Cards cards = cardsRepository.findByCardNumber(cardNumber).orElseThrow(
+        String hash = CardHashUtil.hashCardNumber(cardNumber);
+        Cards cards = cardsRepository.findByCardHash(cardNumber).orElseThrow(
                 () -> new ResourceNotFoundException("Card", "cardNumber", cardNumber)
         );
         return CardsMapper.mapToCardsDto(cards, new CardDto());
@@ -192,10 +247,8 @@ public class CardsServiceImpl implements ICardsService {
         if (cardNumber == null || cardNumber.trim().isBlank()) {
             return Optional.empty();
         }
-
-        String normalized = cardNumber.replaceAll("\\D", ""); // remove spaces, -, etc.
-
-        return cardsRepository.findIdByCardNumber(normalized);
+        String hash = CardHashUtil.hashCardNumber(cardNumber);
+        return cardsRepository.findIdByCardHash(hash);
     }
 
     @Override

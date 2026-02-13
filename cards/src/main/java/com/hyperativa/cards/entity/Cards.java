@@ -16,7 +16,7 @@ public class Cards extends BaseEntity {
 
     @Id
     @GeneratedValue
-    @UuidGenerator(style = UuidGenerator.Style.RANDOM)   // or .TIME / .AUTO
+    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
@@ -24,6 +24,9 @@ public class Cards extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "card_number", nullable = false, unique = true, length = 16)
-    private String cardNumber;
+    @Column(name = "card_hash", nullable = false, length = 64, unique = true)
+    private String cardHash;          // SHA-256 hex → 64 chars
+
+    @Column(name = "last_four", length = 4, nullable = false)
+    private String lastFour;
 }
