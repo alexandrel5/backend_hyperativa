@@ -1,0 +1,11 @@
+build:
+  version: "1.0"
+
+cards:
+  message: "Welcome to Hyperactive Challenge cards APIs "
+  contactDetails:
+    name: "Alexandre Candido - Product Owner"
+    email: "alexandrecandidol5@gmail.com"
+  onCallSupport:
+    - +55 (31) 97537-4404
+
