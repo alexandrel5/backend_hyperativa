@@ -126,7 +126,7 @@
 				<version>3.5.1</version>
 				<configuration>
 					<to>
-						<image>hyperativa/${project.artifactId}:s01</image>
+						<image>alexandrel5/${project.artifactId}:v01</image>
 					</to>
 				</configuration>
 			</plugin>

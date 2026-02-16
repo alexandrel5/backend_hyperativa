@@ -1,0 +1,36 @@
+cd backend_hyperativa/cards
+
+#To generate cards image
+mvn compile jib:build
+
+
+cd backend_hyperativa/docker-compose/default/
+
+#To run 
+docker compose up -d
+
+#To stop
+docker compose stop
+
+#Auth server Keycloak
+docker run -d  -p127.0.0.1:7080:8080 -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.5.3 start-dev
+
+#After install keycloak access it with address below and user admin password admin
+127.0.0.1:7080
+
+#Go to Clients, create new one
+#ClientID use hyperactive-challenge-cc cc means client credential
+ClientID=hyperactive-challenge-cc
+#Go to Next step
+#Change to on Client authentication and select only Service Account roles options
+#Go to next and save Button
+#Now inside Client detail - hyperactive-challenge-cc you can go to Credentials
+#and see the Client id and Secret, you will need it do fill in postman
+#Open a new request in postman as POST option with
+grand_type client_credential
+client_id hyperactive-challenge-cc
+client_secret get it on keyclock Client id and Secret
+scope openid email profile 
+
+#After send and receive response to that request you can see the 
+#JWT token
