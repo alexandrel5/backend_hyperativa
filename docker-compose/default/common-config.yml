@@ -1,7 +1,7 @@
 services:
   network-deploy-service:
     networks:
-      - hyperactive
+      - private-net
 
   microservice-db-config:
     extends:
@@ -28,6 +28,12 @@ services:
     extends:
       service: microservice-base-config
     environment:
-      SPRING_PROFILES_ACTIVE: default
+      #SPRING_PROFILES_ACTIVE: native
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+
+  microservice-eureka-config:
+    extends:
+      service: microservice-configserver-config
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/

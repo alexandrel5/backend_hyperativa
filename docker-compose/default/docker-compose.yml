@@ -1,10 +1,56 @@
 services:
+  configserver:
+    image: "alexandrel5/configserver:v01"
+    container_name: configserver-ms
+    ports:
+      - "8071:8071"
+    healthcheck:
+      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
+  eurekaserver:
+    image: "alexandrel5/eurekaserver:v01"
+    container_name: eurekaserver-ms
+    ports:
+      - "8070:8070"
+    depends_on:
+      configserver:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8070/actuator/health/readiness | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
+    environment:
+      SPRING_APPLICATION_NAME: "eurekaserver"
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://configserver:8071/"
+      #SPRING_CLOUD_CONFIG_URI: http://configserver:8071
+      # Disable Eureka self-registration if this is the only Eureka server
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
+      EUREKA_CLIENT_FETCH_REGISTRY: "false"
+
+      # Important for standalone Eureka
+      EUREKA_SERVER_ENABLE_SELF_PRESERVATION: "false"   # optional, useful in dev
+
+      # Logging (helps debugging)
+      LOGGING_LEVEL_COM_NETFLIX_EUREKA: DEBUG
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_CLOUD: DEBUG
+
   cardsdb:
     container_name: cardsdb
     ports:
       - 3306:3306
     environment:
-      MYSQL_DATABASE: cardsdb
+      MYSQL_DATABASE: card_management_db
     extends:
       file: common-config.yml
       service: microservice-db-config
@@ -13,16 +59,80 @@ services:
     container_name: cards-ms
     ports:
       - "9000:9000"
-    environment:
-      SPRING_APPLICATION_NAME: "cards"
-      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/cardsdb"
     depends_on:
+      configserver:
+        condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
       cardsdb:
         condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    environment:
+      SPRING_APPLICATION_NAME: "cards"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/card_management_db"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/master/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/master
     extends:
       file: common-config.yml
-      service: microservice-configserver-config
+      service: microservice-eureka-config
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.5  # use same or latest stable
+    container_name: keycloak
+    command: start-dev
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      # Optional but helpful for dev:
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT: false          # allows flexible hostname resolution
+      KC_HOSTNAME: localhost             # for external access (browser)
+      KC_HOSTNAME_URL: http://localhost:7080
+      KC_HOSTNAME_ADMIN_URL: http://localhost:7080
+    ports:
+      - "127.0.0.1:7080:8080"            # keep your host-only binding if desired
+    networks:
+      - public-net               # ← receives external traffic
+      - private-net              # ← can reach internal services
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  gatewayserver:
+    image: "alexandrel5/gatewayserver:v01"
+    container_name: gatewayserver-ms
+    networks:
+      - public-net               # ← receives external traffic
+      - private-net              # ← can reach internal services
+    ports:
+      - "8072:8072"
+    depends_on:
+      cards:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "gatewayserver"
+      SPRING_CONFIG_IMPORT: "optional:configserver:http://configserver:8071/"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/master/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/master
+    extends:
+      file: common-config.yml
+      service: microservice-eureka-config
+
+#networks:
+#  hyperactive:
+#    driver: "bridge"
 networks:
-  hyperactive:
-    driver: "bridge"
+  public-net:          # or frontend-net – external access possible
+    driver: bridge
+
+  private-net:         # or backend-net – internal only
+    driver: bridge
+    #internal: true     # ← Key: blocks any external access (even from host)
