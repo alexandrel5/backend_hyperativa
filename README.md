@@ -133,3 +133,26 @@ or
 "message": "Invalid or missing card number"
 }
 ```
+Below are the steps to create an Auth server at KeyClock
+<img width="1512" height="776" alt="image" src="https://github.com/user-attachments/assets/1d4dd9bb-4c74-4cce-8fa1-3732d562cbca" />
+<img width="1512" height="730" alt="image" src="https://github.com/user-attachments/assets/abd4bfab-eaf0-44d4-8278-776db463cc31" />
+<img width="1510" height="772" alt="image" src="https://github.com/user-attachments/assets/0b1529ca-3b84-45fb-adad-8e0880c5571e" />
+Now you can go to get Client Secret
+<img width="1512" height="777" alt="image" src="https://github.com/user-attachments/assets/4f067ca6-003f-4e82-ba82-ee3b5007fd45" />
+
+To create a new User
+<img width="1512" height="792" alt="image" src="https://github.com/user-attachments/assets/8cd593cf-bdb9-4214-94ce-cc1cb0854fbe" />
+To set password in this user 
+<img width="1510" height="770" alt="image" src="https://github.com/user-attachments/assets/01266c51-0d76-4e4d-97b4-71eab7f2d536" />
+
+To create a new Role
+<img width="3024" height="1538" alt="image" src="https://github.com/user-attachments/assets/4263362e-0359-4bbf-9440-728402f8b558" />
+And sign Real Role inside client hyperactive-challenge-cc
+<img width="1512" height="791" alt="image" src="https://github.com/user-attachments/assets/13c5abe5-cd14-40f6-8ae6-feef1099220e" />
+<img width="1510" height="789" alt="image" src="https://github.com/user-attachments/assets/ba47512c-0d00-4a82-95d6-c0cc567b67e3" />
+
+
+
+
+
+
