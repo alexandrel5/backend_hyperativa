@@ -1,0 +1,733 @@
+{
+  "info": {
+    "_postman_id": "5f201fdc-2caf-4546-9fa8-9d35de9d6b84",
+    "name": "Challenge",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "19191722"
+  },
+  "item": [
+    {
+      "name": "Authenticated through Gatewaeyserver",
+      "item": [
+        {
+          "name": "ClientCredentials_AccessToken",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "hyperactive-challenge-cc",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "clientcredentails_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials",
+                  "type": "text",
+                  "uuid": "4fcc061a-98ca-4b31-b4fb-3939d359a9d7"
+                },
+                {
+                  "key": "client_id",
+                  "value": "hyperactive-challenge-cc",
+                  "type": "text",
+                  "uuid": "0a23c965-222f-4a95-b81b-5f34db93488a"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
+                  "type": "text",
+                  "uuid": "f228809d-31dc-4350-ac58-04c2ca5235a2"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "text",
+                  "uuid": "b4869443-08a6-482d-a0fe-160cb20684f8"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:7080/realms/master/protocol/openid-connect/token",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "7080",
+              "path": [
+                "realms",
+                "master",
+                "protocol",
+                "openid-connect",
+                "token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create user Auth",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "hyperactive-challenge-cc",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "clientcredentails_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userName\" : \"Alexandre\",\n    \"passwordHash\" : \"20000000000\"\n\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "127.0.0.1:8072/cards/api/user/v1/create",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8072",
+              "path": [
+                "cards",
+                "api",
+                "user",
+                "v1",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create card Auth",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "hyperactive-challenge-cc",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "clientcredentails_accesstoken",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"user\": {\n        \"userName\": \"Alexandre\",\n        \"passwordHash\": \"20000000000\"\n    },\n    \"cardNumber\": \"4456897999999261\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "127.0.0.1:8072/cards/api/card/v1/create",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8072",
+              "path": [
+                "cards",
+                "api",
+                "card",
+                "v1",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create card By File Auth",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "hyperactive-challenge-cc",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "clientcredentails_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "f4c858da-cee3-4fa1-9d47-5727272916fd",
+                  "src": "/Users/alexandre/Downloads/DESAFIO-HYPERATIVA.txt"
+                },
+                {
+                  "key": "username",
+                  "value": "Alexandre",
+                  "type": "text",
+                  "uuid": "282df24e-a765-4ecf-a670-ef48345352e9"
+                }
+              ]
+            },
+            "url": {
+              "raw": "127.0.0.1:8072/cards/api/card/v1/upload",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8072",
+              "path": [
+                "cards",
+                "api",
+                "card",
+                "v1",
+                "upload"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "lookup Auth",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "hyperactive-challenge-cc",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "clientcredentails_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cardNumber\": \"4456897999999261\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8072/cards/api/card/v1/lookup",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8072",
+              "path": [
+                "cards",
+                "api",
+                "card",
+                "v1",
+                "lookup"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authenticated",
+      "item": [
+        {
+          "name": "create card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNaS1YWjd4Ty1IQVl1Sm5UeTU2SDlHZXI4MmctaHpyY1JEXzNrTTBLS01RIn0.eyJleHAiOjE3NzE0NDkyMDEsImlhdCI6MTc3MTQ0OTE0MSwianRpIjoib25ydHJvOjQ3MzVhOTA1LTg0NjQtNDQzMS02NjI1LWQ2ZGI5MTc1NjY0YyIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjUyNjM3ZGZmLTI1ZTAtNDExZS1hY2Y0LWNjYzIzZmM3NDhkOSIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6InBKak5SR0tLSXhfQjE2UXdaemVPR1ltQSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJBbGV4YW5kcmUgQ2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJBbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6IkNhbmRpZG8iLCJlbWFpbCI6ImFsZXhhbmRyZWNhbmRpZG9sNUBnbWFpbC5jb20ifQ.GgG9mE7IM-JBxf9EFde08A3V6CISmQ7VxfkG8hcvalrbESYgIVY3LKKdT4yGc5Xe90EgnGp3JJKxMSpULBkRoo0a--N0T6plvyVHao6FZfKNOas9lOVvm3OmwK0Rx1oEVhUYFQHq0QTINZaeF41jaAYSyxUNo6XOiSWXw2TfVtDGs9N8r2cFtOi9C-rX1lgPQlAmiRnw-YqSNs1-plLGq8zmBckOtzslIBxwcNFfhUnF0YDw1B-9kggKTK6yQE1IuqIWhXlA3PXjJeUqtKOtivu2ZJaU7Io9XgjBtQb0o_evgAK6iyEs6UInwO_uvsl7iD87J57xt2sO-U9du7WfPQ",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cardNumber\": \"445681499999966\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "127.0.0.1:9000/api/card/v1/create",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "9000",
+              "path": [
+                "api",
+                "card",
+                "v1",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create card By File",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNaS1YWjd4Ty1IQVl1Sm5UeTU2SDlHZXI4MmctaHpyY1JEXzNrTTBLS01RIn0.eyJleHAiOjE3NzE0NDgxNDIsImlhdCI6MTc3MTQ0ODA4MiwianRpIjoib25ydHJvOjYyYzhhMjJhLTcxZWQtNmJhYy02N2MwLWFlYTMzMTAzNDUyOCIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjUyNjM3ZGZmLTI1ZTAtNDExZS1hY2Y0LWNjYzIzZmM3NDhkOSIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6IjR6ZlpVbEgyNV9qS0NRS1E0RWdfcW4xdyIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJBbGV4YW5kcmUgQ2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJBbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6IkNhbmRpZG8iLCJlbWFpbCI6ImFsZXhhbmRyZWNhbmRpZG9sNUBnbWFpbC5jb20ifQ.CI5JFIvrdrwIlSCnLQriN9gz1keXQaTBUCJCsEEDT8eR_mC2uwIyExv9Qo4agikwiMB2Vub4jnIEb97SlXZBp7aETuMd3vbp_QOBSkPedqC1LwJzOaFRm1jEdzn7mN8VdfXBI7DwWoDXoIsXSLAYvbfuqe2ypFUjaEXoJmnp1rqvf2WfATe2vAxutO_q_05TtenucEN2yTw_da0D6FJLhAHIH-H8sB8PGfmorZJ9iAn5ghs6o5PtshS0O4X5eYW1vn4gbKu9YD3x2wtISGZ-0605tkeUi7IjQnhw3seo0cAmr25GRAji-mMCycejmD8DcB_NFUth1WrYzIirkQc2kQ",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "f4c858da-cee3-4fa1-9d47-5727272916fd",
+                  "src": "/Users/alexandre/Downloads/DESAFIO-HYPERATIVA.txt"
+                }
+              ]
+            },
+            "url": {
+              "raw": "127.0.0.1:9000/api/card/v1/upload",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "9000",
+              "path": [
+                "api",
+                "card",
+                "v1",
+                "upload"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "lookup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNaS1YWjd4Ty1IQVl1Sm5UeTU2SDlHZXI4MmctaHpyY1JEXzNrTTBLS01RIn0.eyJleHAiOjE3NzE0MzcyMTAsImlhdCI6MTc3MTQzNzE1MCwianRpIjoib25ydHJvOjMwODNkMTExLWQ3NmMtM2JkNy0yYzFlLTQ0NDllYjRlOWY0OSIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjUyNjM3ZGZmLTI1ZTAtNDExZS1hY2Y0LWNjYzIzZmM3NDhkOSIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6Ijh0eWJSN1V5VVR1UHBvbEhNSzh4eHJTayIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJBbGV4YW5kcmUgQ2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJBbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6IkNhbmRpZG8iLCJlbWFpbCI6ImFsZXhhbmRyZWNhbmRpZG9sNUBnbWFpbC5jb20ifQ.RvKqo99pdeknCvMtPrj--HrO9tbl_sQGjR0IF9PLhZ79Kfs1vY8c7QgTOZ8exN2jS3iA7Pdjd5Uvd2Almbowr0F9ud-AFbt9sdXhHg2IXH6ksJZoVwe4BBZPUreL9lkusoetAPqkrpsNAt2B680IxxL74Yzx4pUcFzJjkECysxnr9YR2HJvzfoXwcv_N_TLy6YPMKJd4fOtS0ZcRXeWBF33jWzhukloJfUoHLsA1PIAID987Z8sOXAk1U3RqPmpA6tbBo5SdClrDXl-SZiplBeEkjGA8CqFrZ36XzyfYBYGFnC7he0zJRdWEMenZ30ysBhp5VTy_FtJlVFLiSIAH-g",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cardNumber\": \"4456814999999698\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "127.0.0.1:9000/api/card/v1/lookup",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "9000",
+              "path": [
+                "api",
+                "card",
+                "v1",
+                "lookup"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Shutdown Cards",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "127.0.0.1:9000/actuator/shutdown",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "9000",
+              "path": [
+                "actuator",
+                "shutdown"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get ClientCredentials_AccessToken",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();",
+                  "pm.environment.set(\"access_token\", response.access_token);",
+                  "console.log(response.access_token);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "hyperactive-challenge-cc",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "clientcredentails_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grant_type",
+                  "value": "password",
+                  "type": "text",
+                  "uuid": "4fcc061a-98ca-4b31-b4fb-3939d359a9d7"
+                },
+                {
+                  "key": "client_id",
+                  "value": "hyperactive-challenge-cc",
+                  "type": "text",
+                  "uuid": "0a23c965-222f-4a95-b81b-5f34db93488a"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "8duzxITlgLklhbgLZzVRqVgcmtaOTkrV",
+                  "type": "text",
+                  "uuid": "f228809d-31dc-4350-ac58-04c2ca5235a2"
+                },
+                {
+                  "key": "username",
+                  "value": "alexandre",
+                  "type": "text",
+                  "uuid": "52b898c8-b6ab-463d-a6d7-f52aef759db8"
+                },
+                {
+                  "key": "password",
+                  "value": "Challenge",
+                  "type": "text",
+                  "uuid": "ecd56b21-15ad-4552-a97a-48dd25b75852"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "text",
+                  "uuid": "b4869443-08a6-482d-a0fe-160cb20684f8"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:7080/realms/master/protocol/openid-connect/token",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "7080",
+              "path": [
+                "realms",
+                "master",
+                "protocol",
+                "openid-connect",
+                "token"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

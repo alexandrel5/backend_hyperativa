@@ -12,6 +12,9 @@ docker compose up -d
 #To stop
 docker compose stop
 
+#Mysql if needed
+docker run --name cardsdb-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=card_management_db -d mysql:latest
+
 #Auth server Keycloak
 docker run -d  -p127.0.0.1:7080:8080 -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.5.3 start-dev
 
@@ -34,3 +37,7 @@ scope openid email profile
 
 #After send and receive response to that request you can see the 
 #JWT token
+
+#To validade that config server is running go to http://localhost:8071/eurekaserver/default
+#To validade that Eureka server is running go to http://127.0.0.1:8070/
+#To validade that Gateway server is running go to http://127.0.0.1:8072/actuator/gateway/routes
