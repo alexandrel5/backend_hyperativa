@@ -199,21 +199,6 @@ public class CardsServiceImpl implements ICardsService {
         return raw.replaceAll("\\D", ""); // remove spaces, dashes, etc.
     }
 
-
-    /*
-     * @param mobileNumber - Input Mobile Number
-     * @return Card Details based on a given mobileNumber
-     */
-    @Override
-    public CardDto fetchCard(String cardNumber) {
-        String hash = CardHashUtil.hashCardNumber(cardNumber);
-        Cards cards = cardsRepository.findByCardHash(cardNumber).orElseThrow(
-                () -> new ResourceNotFoundException("Card", "cardNumber", cardNumber)
-        );
-        return CardsMapper.mapToCardsDto(cards, new CardDto());
-    }
-
-
     private Optional<UUID> getCardSystemIdByNumber(String cardNumber) {
         if (cardNumber == null || cardNumber.trim().isBlank()) {
             return Optional.empty();

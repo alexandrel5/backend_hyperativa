@@ -36,6 +36,7 @@ import java.util.UUID;
 @RequestMapping(path = "/api/card/v1", produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
 @Validated
+@PreAuthorize("isAuthenticated()")
 public class CardsController {
 
     private static final Logger log = LoggerFactory.getLogger(CardsController.class);
@@ -44,7 +45,6 @@ public class CardsController {
     private final FileUploadValidationService validationService;
     private final CardExtractionService extractionService;
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public ResponseEntity<?> createCard(
             @AuthenticationPrincipal Jwt jwt,
@@ -60,8 +60,8 @@ public class CardsController {
             UUID ownerSub = UUID.fromString(jwt.getSubject());  // "52637dff-25e0-411e-acf4-ccc23fc748d9"
 
             // Optional: you can also read other claims if needed
-            // String username = jwt.getClaimAsString("preferred_username");
-            // String email    = jwt.getClaimAsString("email");
+            //String username = jwt.getClaimAsString("preferred_username");
+            //String email    = jwt.getClaimAsString("email");
 
             // Pass the owner_sub + DTO to service
             CardProcessLineDto result = iCardsService.createSingleCard(cardDto, ownerSub);
@@ -76,7 +76,6 @@ public class CardsController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadAndExtractCards(
             @RequestParam("file")
@@ -138,7 +137,6 @@ public class CardsController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/lookup")
     public ResponseEntity<CardLookupResponse> lookupCardPost(@AuthenticationPrincipal Jwt jwt,
                                                              @RequestBody @Valid CardDto cardDto) {

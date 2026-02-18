@@ -13,11 +13,22 @@ CREATE TABLE IF NOT EXISTS `cards` (
 
 -- Create logs table for tracking API usage
 CREATE TABLE IF NOT EXISTS `api_logs` (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `owner_sub`  BINARY(16),                            -- Keycloak user UUID
-    `action` VARCHAR(255) NOT NULL,
-    `request_data` TEXT,
-    `response_data` TEXT,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_sub_action (`owner_sub`, `action`, `created_at`)
+    `id`              BIGINT AUTO_INCREMENT PRIMARY KEY,          -- bigger range
+    `owner_sub`       BINARY(16) NULL,                             -- Keycloak sub (nullable for anonymous)
+    `correlation_id`  VARCHAR(36) NULL,                            -- for tracing across services
+    `method`          VARCHAR(10) NOT NULL,
+    `path`            VARCHAR(500) NOT NULL,
+    `query_string`    VARCHAR(1000) NULL,
+    `status`          INT NOT NULL,
+    `duration_ms`     INT NOT NULL,
+    `ip_address`      VARCHAR(45) NULL,
+    `action`          VARCHAR(150) NOT NULL,                       -- e.g. "CREATE_CARD", "UPLOAD_FILE"
+    `request_body`    TEXT NULL,                                   -- masked / truncated
+    `response_body`   TEXT NULL,                                   -- masked / truncated / only on error
+    `error_message`   TEXT NULL,
+    `created_at`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+
+    INDEX idx_owner_action     (`owner_sub`, `action`, `created_at`),
+    INDEX idx_correlation      (`correlation_id`),
+    INDEX idx_status_duration  (`status`, `duration_ms`)
 );

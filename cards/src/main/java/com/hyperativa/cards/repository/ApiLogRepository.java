@@ -1,9 +1,7 @@
 package com.hyperativa.cards.repository;
 
-import com.hyperativa.cards.entity.ApiLog;
+import com.hyperativa.cards.entity.ApiLogEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.UUID;
-
-public interface ApiLogRepository extends JpaRepository<ApiLog, UUID> {
+public interface ApiLogRepository extends JpaRepository<ApiLogEntity, Integer> {
 }
