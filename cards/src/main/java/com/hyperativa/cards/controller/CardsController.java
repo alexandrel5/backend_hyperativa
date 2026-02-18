@@ -64,7 +64,7 @@ public class CardsController {
             // String email    = jwt.getClaimAsString("email");
 
             // Pass the owner_sub + DTO to service
-            CardProcessLineDto result = iCardsService.createSingleCard(ownerSub, cardDto);
+            CardProcessLineDto result = iCardsService.createSingleCard(cardDto, ownerSub);
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(result);
@@ -138,15 +138,14 @@ public class CardsController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/lookup")
     public ResponseEntity<CardLookupResponse> lookupCardPost(@AuthenticationPrincipal Jwt jwt,
-                                                             @RequestBody Map<String, String> payload) {
+                                                             @RequestBody @Valid CardDto cardDto) {
 
-        System.out.println(Map.of("sub", jwt.getSubject(), "username", jwt.getClaimAsString("preferred_username"), "email", jwt.getClaimAsString("email"), "roles", jwt.getClaim("realm_access")));
-
-        String cardNumber = payload.get("cardNumber");
+        UUID ownerSub = UUID.fromString(jwt.getSubject());
         return ResponseEntity.ok(
-                iCardsService.lookupCard(cardNumber)
+                iCardsService.lookupCard(cardDto, ownerSub)
                         .orElse(new CardLookupResponse(false, null, "Invalid or missing card number")));
     }
 

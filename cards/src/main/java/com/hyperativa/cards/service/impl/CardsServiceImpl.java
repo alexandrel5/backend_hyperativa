@@ -38,7 +38,7 @@ public class CardsServiceImpl implements ICardsService {
 
     @Override
     @Transactional
-    public CardProcessLineDto createSingleCard(UUID ownerSub, CardDto cardDto) {
+    public CardProcessLineDto createSingleCard(CardDto cardDto, UUID ownerSub) {
 
         if (ownerSub == null) {
             return new CardProcessLineDto(
@@ -223,8 +223,8 @@ public class CardsServiceImpl implements ICardsService {
     }
 
     @Override
-    public Optional<CardLookupResponse> lookupCard(String cardNumber) {
-        return getCardSystemIdByNumber(cardNumber)
+    public Optional<CardLookupResponse> lookupCard(CardDto cardDto, UUID ownerSub) {
+        return getCardSystemIdByNumber(cardDto.getCardNumber())
                 .map(id -> new CardLookupResponse(true, id, null))
                 .or(() -> Optional.of(new CardLookupResponse(false, null, "Card not found")));
     }

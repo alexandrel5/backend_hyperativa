@@ -12,11 +12,11 @@ import java.util.UUID;
 public interface ICardsService {
 
 
-    CardProcessLineDto createSingleCard(UUID ownerSub, CardDto cardDto);
+    CardProcessLineDto createSingleCard(CardDto cardDto, UUID ownerSub);
 
     CardBatchResultDto processCardsFile(MultipartFile file, UUID ownerSub);
 
     CardDto fetchCard(String cardNumber);
 
-    Optional<CardLookupResponse> lookupCard(String cardNumber);
+    Optional<CardLookupResponse> lookupCard(CardDto cardDto, UUID ownerSub);
 }
