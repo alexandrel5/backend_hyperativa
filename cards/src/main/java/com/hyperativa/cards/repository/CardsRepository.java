@@ -19,5 +19,4 @@ public interface CardsRepository extends JpaRepository<Cards, UUID> {
 
     // Optional helpers
     Optional<Cards> findByCardHash(String cardHash);
-    boolean existsByLastFourAndUserId(String lastFour, UUID userId);
 }

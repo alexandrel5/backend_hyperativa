@@ -6,12 +6,10 @@ import com.hyperativa.cards.dto.card.CardBatchResultDto;
 import com.hyperativa.cards.dto.card.CardLookupResponse;
 import com.hyperativa.cards.dto.card.CardProcessLineDto;
 import com.hyperativa.cards.entity.Cards;
-import com.hyperativa.cards.entity.User;
 import com.hyperativa.cards.exception.ResourceNotFoundException;
 import com.hyperativa.cards.mapper.CardsMapper;
 import com.hyperativa.cards.repository.ApiLogRepository;
 import com.hyperativa.cards.repository.CardsRepository;
-import com.hyperativa.cards.repository.UserRepository;
 import com.hyperativa.cards.service.ICardsService;
 import com.hyperativa.cards.service.fileupload.CardExtractionService;
 import com.hyperativa.cards.util.CardHashUtil;
@@ -32,44 +30,57 @@ import java.util.stream.Collectors;
 public class CardsServiceImpl implements ICardsService {
 
     private CardsRepository cardsRepository;
-    private UserRepository userRepository;
     private ApiLogRepository apiLogRepository;
     private CardExtractionService extractionService;
 
     private static final Logger log = LoggerFactory.getLogger(CardsServiceImpl.class);
 
 
+    @Override
     @Transactional
-    public CardProcessLineDto createSingleCard(CardDto cardDto) {
+    public CardProcessLineDto createSingleCard(UUID ownerSub, CardDto cardDto) {
 
-        User user = getUserOrThrow(cardDto.getUser().getUserName());
+        if (ownerSub == null) {
+            return new CardProcessLineDto(
+                    null,
+                    CardProcessingConstants.STATUS_ERROR,
+                    "Missing user identifier (owner_sub)",
+                    null
+            );
+        }
 
         String cardNumber = normalizeCardNumber(cardDto.getCardNumber());
 
         if (cardNumber == null || cardNumber.isBlank()) {
-            return new CardProcessLineDto(null,
+            return new CardProcessLineDto(
+                    null,
                     CardProcessingConstants.STATUS_ERROR,
                     CardProcessingConstants.MSG_CARD_NUMBER_REQUIRED,
-                    null);
+                    null
+            );
         }
 
         List<String> singleList = List.of(cardNumber);
-
-        CardBatchResultDto batchResult = processCardsInternal(singleList, user);
+        CardBatchResultDto batchResult = processCardsInternal(singleList, ownerSub);
 
         return batchResult.details().get(0);
     }
 
     @Transactional
-    public CardBatchResultDto processCardsFile(MultipartFile file, String username) {
+    public CardBatchResultDto processCardsFile(MultipartFile file, UUID ownerSub) {
 
-        User user = getUserOrThrow(username);
+        if (ownerSub == null) {
+            return new CardBatchResultDto(
+                    CardProcessingConstants.STATUS_FAILED,
+                    "Missing user identifier (owner_sub)",
+                    List.of()
+            );
+        }
 
         List<String> extractedCards;
         try {
             extractedCards = extractionService.extractAndValidateCards(file);
         } catch (IOException e) {
-
             return new CardBatchResultDto(
                     CardProcessingConstants.STATUS_FAILED,
                     CardProcessingConstants.MSG_CANNOT_READ_FILE,
@@ -85,13 +96,10 @@ public class CardsServiceImpl implements ICardsService {
             );
         }
 
-        CardBatchResultDto result = processCardsInternal(extractedCards, user);
-
-        // You can enrich message with file-specific info if desired
-        return result;
+        return processCardsInternal(extractedCards, ownerSub);
     }
 
-    private CardBatchResultDto processCardsInternal(List<String> cardNumbers, User user) {
+    private CardBatchResultDto processCardsInternal(List<String> cardNumbers, UUID ownerSub) {
 
         if (cardNumbers == null || cardNumbers.isEmpty()) {
             return new CardBatchResultDto(
@@ -101,44 +109,45 @@ public class CardsServiceImpl implements ICardsService {
             );
         }
 
-        // 1. Normalize & deduplicate (keep first occurrence order)
+        // 1. Normalize & deduplicate (preserve first occurrence order)
         List<String> toProcess = cardNumbers.stream()
                 .filter(Objects::nonNull)
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
-                .distinct()                     // or keep LinkedHashSet if order matters
+                .distinct()
                 .toList();
 
         int duplicatesIgnored = cardNumbers.size() - toProcess.size();
 
-        // 2. Compute hashes for cards we will check
+        // 2. Compute hashes
         Map<String, String> hashToOriginal = new LinkedHashMap<>(); // preserve order
         Set<String> cardHashes = new HashSet<>();
 
         for (String pan : toProcess) {
             String hash = CardHashUtil.hashCardNumber(pan);
-            hashToOriginal.put(hash, pan);   // first occurrence wins
+            hashToOriginal.put(hash, pan);
             cardHashes.add(hash);
         }
-        // 3. Bulk check which hashes already exist in database
+
+        // 3. Check existing hashes
         List<Cards> existing = cardsRepository.findByCardHashIn(cardHashes);
         Set<String> existingHashes = existing.stream()
                 .map(Cards::getCardHash)
                 .collect(Collectors.toSet());
 
-        // 4. Prepare results and entities to save
+        // 4. Prepare results and entities
         List<CardProcessLineDto> lines = new ArrayList<>();
         List<Cards> toSave = new ArrayList<>();
 
         int savedCount = 0;
         int alreadyExistsCount = 0;
 
-        for (String hash : hashToOriginal.keySet()) {   // ordered by first appearance
+        for (String hash : hashToOriginal.keySet()) {
             String originalPan = hashToOriginal.get(hash);
 
             if (existingHashes.contains(hash)) {
                 lines.add(new CardProcessLineDto(
-                        originalPan,                            // show original or masked
+                        originalPan,
                         CardProcessingConstants.STATUS_ALREADY_EXISTS,
                         CardProcessingConstants.MSG_ALREADY_REGISTERED,
                         null
@@ -147,23 +156,22 @@ public class CardsServiceImpl implements ICardsService {
                 continue;
             }
 
-            // New card → prepare entity
+            // New card
             Cards entity = new Cards();
+            entity.setOwnerSub(ownerSub);
             entity.setCardHash(hash);
             entity.setLastFour(CardHashUtil.extractLastFour(originalPan));
-            entity.setUser(user);
 
             toSave.add(entity);
-
         }
 
         if (!toSave.isEmpty()) {
             List<Cards> saved = cardsRepository.saveAll(toSave);
             savedCount = saved.size();
 
-            for (var card : saved) {
+            for (Cards card : saved) {
                 lines.add(new CardProcessLineDto(
-                        card.getCardHash(),
+                        card.getCardHash(),               // or mask if you prefer
                         CardProcessingConstants.STATUS_SUCCESS,
                         CardProcessingConstants.MSG_CARD_CREATED_SUCCESSFULLY,
                         card.getId()
@@ -171,8 +179,8 @@ public class CardsServiceImpl implements ICardsService {
             }
         }
 
-        String status = savedCount == toProcess.size() ? "SUCCESS"
-                : (savedCount > 0 ? "PARTIAL" : "FAILED");
+        String status = savedCount == toProcess.size() ? CardProcessingConstants.STATUS_SUCCESS
+                : (savedCount > 0 ? "PARTIAL" : CardProcessingConstants.STATUS_FAILED);
 
         String message = String.format(
                 "%d card(s) processed (%d unique), %d saved, %d already exist%s",
@@ -183,16 +191,7 @@ public class CardsServiceImpl implements ICardsService {
                 duplicatesIgnored > 0 ? ", " + duplicatesIgnored + " duplicate(s) ignored" : ""
         );
 
-        return new CardBatchResultDto(
-                status,
-                message,
-                lines
-        );
-    }
-
-    private User getUserOrThrow(String username) {
-        return userRepository.findByUserName(username)
-                .orElseThrow(() -> new IllegalArgumentException(String.format(CardProcessingConstants.MSG_USER_NOT_FOUND, username)));
+        return new CardBatchResultDto(status, message, lines);
     }
 
     private String normalizeCardNumber(String raw) {

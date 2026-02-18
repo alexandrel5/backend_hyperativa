@@ -12,6 +12,11 @@ spring:
   sql:
     init:
       mode: always
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://127.0.0.1:7080/realms/master/protocol/openid-connect/certs"
 #File Upload
   servlet:
     multipart:
@@ -47,8 +52,4 @@ info:
     description: "Hyperactive Challenge Cards Server Application"
     version: "1.0.0"
 
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          jwk-set-uri: "http://127.0.0.1:7080/realms/master/protocol/openid-connect/certs"
+
