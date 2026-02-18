@@ -66,7 +66,7 @@ public class CardsController {
             // Pass the owner_sub + DTO to service
             CardProcessLineDto result = iCardsService.createSingleCard(cardDto, ownerSub);
 
-            return ResponseEntity.status(HttpStatus.CREATED)
+            return ResponseEntity.status(HttpStatus.OK)
                     .body(result);
 
         } catch (Exception e) {
