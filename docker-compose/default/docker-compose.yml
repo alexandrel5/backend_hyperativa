@@ -82,23 +82,20 @@ services:
       service: microservice-eureka-config
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.0.5  # use same or latest stable
+    image: quay.io/keycloak/keycloak:26.5.3
     container_name: keycloak
     command: start-dev
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
-      # Optional but helpful for dev:
       KC_HTTP_ENABLED: true
-      KC_HOSTNAME_STRICT: false          # allows flexible hostname resolution
-      KC_HOSTNAME: localhost             # for external access (browser)
-      KC_HOSTNAME_URL: http://localhost:7080
-      KC_HOSTNAME_ADMIN_URL: http://localhost:7080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
     ports:
-      - "127.0.0.1:7080:8080"            # keep your host-only binding if desired
+      - "7080:8080"
     networks:
-      - public-net               # ← receives external traffic
-      - private-net              # ← can reach internal services
+      - public-net
+      - private-net
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ready" ]
       interval: 10s
@@ -121,7 +118,7 @@ services:
       SPRING_APPLICATION_NAME: "gatewayserver"
       SPRING_CONFIG_IMPORT: "optional:configserver:http://configserver:8071/"
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/master/protocol/openid-connect/certs
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/master
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:7080/realms/master
     extends:
       file: common-config.yml
       service: microservice-eureka-config
