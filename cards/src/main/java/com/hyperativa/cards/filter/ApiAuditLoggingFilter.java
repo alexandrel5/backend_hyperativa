@@ -30,8 +30,20 @@ public class ApiAuditLoggingFilter extends OncePerRequestFilter {
 
     private final ApiLogServiceImpl apiLogService;
 
+    private static final String API_PREFIX = "/api/";
+
     public ApiAuditLoggingFilter(ApiLogServiceImpl apiLogService) {
         this.apiLogService = apiLogService;
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+
+        if (!path.startsWith(API_PREFIX)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
