@@ -75,8 +75,10 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "cards"
       SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3306/card_management_db"
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/master/protocol/openid-connect/certs
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/master
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+      SPRING_CLOUD_CONFIG_URI: http://configserver:8071
+#      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/master/protocol/openid-connect/certs
+#      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8080/realms/master
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -116,9 +118,10 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "gatewayserver"
-      SPRING_CONFIG_IMPORT: "optional:configserver:http://configserver:8071/"
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/master/protocol/openid-connect/certs
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:7080/realms/master
+#      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+#      SPRING_CLOUD_CONFIG_URI: http://configserver:8071
+#      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/master/protocol/openid-connect/certs
+#      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:7080/realms/master
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -132,4 +135,4 @@ networks:
 
   private-net:         # or backend-net – internal only
     driver: bridge
-    #internal: true     # ← Key: blocks any external access (even from host)
+    internal: false     # ← Key: blocks any external access (even from host)
