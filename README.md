@@ -12,6 +12,9 @@ API for managing credit/debit card records (single creation, batch upload via fi
 
 ## Quick Start
 
+In the Documents folder, you can find Postman collections to call all endpoints.
+
+Documentation:
 All requests require **Bearer JWT** authentication (OAuth2-compatible, issued by Keycloak).
 
 Example (cURL):
@@ -133,6 +136,18 @@ or
 "message": "Invalid or missing card number"
 }
 ```
+Instructions to start the application 
+
+First, download the project using Git, then navigate to the directory.
+```bash
+cd backend_hyperativa/docker-compose/default
+```
+Then, use the Docker command to pull all microservices; they will start afterward.
+
+```bash
+docker compose up -d
+```
+
 Below are the steps to create an Auth server at KeyClock
 <img width="1512" height="776" alt="image" src="https://github.com/user-attachments/assets/1d4dd9bb-4c74-4cce-8fa1-3732d562cbca" />
 <img width="1512" height="730" alt="image" src="https://github.com/user-attachments/assets/abd4bfab-eaf0-44d4-8278-776db463cc31" />
