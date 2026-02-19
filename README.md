@@ -19,15 +19,12 @@ All requests require **Bearer JWT** authentication (OAuth2-compatible, issued by
 
 Example (cURL):
 ```bash
-curl -X POST https://api.hyperativa.com/api/cards/v1/create \
-  -H "Authorization: Bearer <your-jwt-token>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "cardNumber": "4539312345678901",
-    "holderName": "Alexandre Candido",
-    "expiryDate": "12/28",
-    "brand": "VISA"
-  }'
+curl --location '127.0.0.1:9000/api/card/v1/create' \
+--header 'Authorization: Bearer xxxx...' \
+--header 'Content-Type: application/json' \
+--data '{
+    "cardNumber": "445681499999966"
+}'
 ```
 
 Authentication
