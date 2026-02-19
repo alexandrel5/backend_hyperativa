@@ -75,7 +75,7 @@ POST /upload
 Upload CSV or Excel file → batch process multiple cards.
 Request (multipart/form-data)
 
-Form field: file (required) — .csv or .xlsx file
+Form field: file (required) — txt you can found one in Documents folder
 
 Success (200 OK) — processing summary (can be partial)
 ```bash
