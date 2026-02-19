@@ -7,7 +7,7 @@
   },
   "item": [
     {
-      "name": "Authenticated through Gatewaeyserver",
+      "name": "Auth and Passing through Gatewaeyserver",
       "item": [
         {
           "name": "ClientCredentials_AccessToken",
@@ -26,49 +26,7 @@
           ],
           "request": {
             "auth": {
-              "type": "oauth2",
-              "oauth2": [
-                {
-                  "key": "clientSecret",
-                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
-                  "type": "string"
-                },
-                {
-                  "key": "clientId",
-                  "value": "hyperactive-challenge-cc",
-                  "type": "string"
-                },
-                {
-                  "key": "tokenName",
-                  "value": "clientcredentails_accesstoken",
-                  "type": "string"
-                },
-                {
-                  "key": "addTokenTo",
-                  "value": "header",
-                  "type": "string"
-                },
-                {
-                  "key": "client_authentication",
-                  "value": "body",
-                  "type": "string"
-                },
-                {
-                  "key": "scope",
-                  "value": "openid email profile",
-                  "type": "string"
-                },
-                {
-                  "key": "accessTokenUrl",
-                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
-                  "type": "string"
-                },
-                {
-                  "key": "grant_type",
-                  "value": "client_credentials",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "method": "POST",
             "header": [],
@@ -89,9 +47,21 @@
                 },
                 {
                   "key": "client_secret",
-                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
+                  "value": "yDnuw3sDeP1wpzBQHq9tqCntuHnmKMtM",
                   "type": "text",
                   "uuid": "f228809d-31dc-4350-ac58-04c2ca5235a2"
+                },
+                {
+                  "key": "username",
+                  "value": "alexandre",
+                  "type": "text",
+                  "uuid": "9a8d995f-6d65-4530-8351-bbf53f70dcc8"
+                },
+                {
+                  "key": "password",
+                  "value": "Challenge",
+                  "type": "text",
+                  "uuid": "0f6e60e1-ef4b-4e2e-9ff8-0674dae4db34"
                 },
                 {
                   "key": "scope",
@@ -123,137 +93,22 @@
           "response": []
         },
         {
-          "name": "create user Auth",
-          "request": {
-            "auth": {
-              "type": "oauth2",
-              "oauth2": [
-                {
-                  "key": "clientSecret",
-                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
-                  "type": "string"
-                },
-                {
-                  "key": "clientId",
-                  "value": "hyperactive-challenge-cc",
-                  "type": "string"
-                },
-                {
-                  "key": "tokenName",
-                  "value": "clientcredentails_accesstoken",
-                  "type": "string"
-                },
-                {
-                  "key": "addTokenTo",
-                  "value": "header",
-                  "type": "string"
-                },
-                {
-                  "key": "client_authentication",
-                  "value": "body",
-                  "type": "string"
-                },
-                {
-                  "key": "scope",
-                  "value": "openid email profile",
-                  "type": "string"
-                },
-                {
-                  "key": "accessTokenUrl",
-                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
-                  "type": "string"
-                },
-                {
-                  "key": "grant_type",
-                  "value": "client_credentials",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"userName\" : \"Alexandre\",\n    \"passwordHash\" : \"20000000000\"\n\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "127.0.0.1:8072/cards/api/user/v1/create",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8072",
-              "path": [
-                "cards",
-                "api",
-                "user",
-                "v1",
-                "create"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "create card Auth",
           "request": {
             "auth": {
-              "type": "oauth2",
-              "oauth2": [
-                {
-                  "key": "clientSecret",
-                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
-                  "type": "string"
-                },
-                {
-                  "key": "clientId",
-                  "value": "hyperactive-challenge-cc",
-                  "type": "string"
-                },
-                {
-                  "key": "addTokenTo",
-                  "value": "header",
-                  "type": "string"
-                },
-                {
-                  "key": "client_authentication",
-                  "value": "body",
-                  "type": "string"
-                },
-                {
-                  "key": "scope",
-                  "value": "openid email profile",
-                  "type": "string"
-                },
-                {
-                  "key": "accessTokenUrl",
-                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
-                  "type": "string"
-                },
-                {
-                  "key": "grant_type",
-                  "value": "client_credentials",
-                  "type": "string"
-                },
-                {
-                  "key": "tokenName",
-                  "value": "clientcredentails_accesstoken",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0bHNzNFphQXlYOXVpYVJMUV90RjkwY21lZHZSLVJtSW5xWXJkTkIzaFNrIn0.eyJleHAiOjE3NzE0Njg0MjksImlhdCI6MTc3MTQ2ODM2OSwianRpIjoidHJydGNjOmEwNDc0M2EzLWQ0OGMtZWQ5OS0wNTc2LTk1ODdkZDNkMTBjZSIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjVkM2E2MGE1LTU5MDMtNDhkYi1iY2YwLTA2NGY5YmFmZTY0ZiIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNsaWVudEhvc3QiOiIxOTIuMTY4LjY1LjEiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzZXJ2aWNlLWFjY291bnQtaHlwZXJhY3RpdmUtY2hhbGxlbmdlLWNjIiwiY2xpZW50QWRkcmVzcyI6IjE5Mi4xNjguNjUuMSIsImNsaWVudF9pZCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyJ9.AKs4VBhQAmviVtvHAnwDbdV6yVvEVl6JxvqjV5ihD2Lywf_azTpfzwLTllt9hJRReXK-pQwGoYCrUX4DYOdbZUXK_t9gmVreYg-vES6TSglNLpwQWGxtXRb-IZMehItbnu_IDGcs_zqC_A12k75t8xCgKwXLZ5QClPnBXfZ99uHlQ2pG7tmyfoYtBiiRt0CqFUn-I9H7ImZ9qiPhFB0H_14nE2PWXX14RFtCpQaoCwKxFGA9QeVLsGKxhHuMC97T_SAE1VLqQZagrHtjrSntYBU87wBQpF8_-IapO2pkxaJfeZjkTMlEhvlX4rIbaTutXxNoDGZdj6tg3ksKbMK25A",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"user\": {\n        \"userName\": \"Alexandre\",\n        \"passwordHash\": \"20000000000\"\n    },\n    \"cardNumber\": \"4456897999999261\"\n}",
+              "raw": "{\n    \"cardNumber\": \"445681499999966\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -284,52 +139,16 @@
           "name": "Create card By File Auth",
           "request": {
             "auth": {
-              "type": "oauth2",
-              "oauth2": [
-                {
-                  "key": "clientSecret",
-                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
-                  "type": "string"
-                },
-                {
-                  "key": "clientId",
-                  "value": "hyperactive-challenge-cc",
-                  "type": "string"
-                },
-                {
-                  "key": "tokenName",
-                  "value": "clientcredentails_accesstoken",
-                  "type": "string"
-                },
-                {
-                  "key": "addTokenTo",
-                  "value": "header",
-                  "type": "string"
-                },
-                {
-                  "key": "client_authentication",
-                  "value": "body",
-                  "type": "string"
-                },
-                {
-                  "key": "scope",
-                  "value": "openid email profile",
-                  "type": "string"
-                },
-                {
-                  "key": "accessTokenUrl",
-                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
-                  "type": "string"
-                },
-                {
-                  "key": "grant_type",
-                  "value": "client_credentials",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI2RFJDam9rd2p5Q3AwbGMyZjJqSlRMSGtYQzBOWE5vc3VMcjlHQzRQRldVIn0.eyJleHAiOjE3NzE0NjY4NzksImlhdCI6MTc3MTQ2NjgxOSwianRpIjoib25ydHJvOjBkN2JjNTE3LTQ0ZDUtOGJmMS03NjhhLWJjMzBjYjk4YzhlNCIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImRhMjc0ZTExLWZmYzQtNDk1YS04OTBmLTM0MzdhZDI0NjYzZCIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6Ikp1LUhVbGwxY3hmR2dpTXR1ZDFqeEUxRyIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJhbGV4YW5kcmUgY2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJhbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6ImNhbmRpZG8iLCJlbWFpbCI6ImFsZXhhbmRyZUBnbWFpbC5jb20ifQ.j57ZIaTPEqGJN5Z07kwv_g-oxdaMz-x4juDuDZqgBY0JSnZuv0VHX-UVWdh4et0To8YRe27abhEuAvd2w2ssa21BkJ_iOQnJG-NxoF-CRGMzik6ZT6JPSTrYNTZiMXi-AubD9ySWBbPLo3_JKI_mwtgDE4940cYA4h8r9H6Tu0qLbdPbrtJk34uk6jIxt9RlKcdyimTESHXAx4vL0ap_oIlJytu-t9It6Ybs8T4LSBTv2Dyk9XiM-MYqlGNo5HoBxOT6I6EsztXaCFobBH_ug_U1I_EwOlM-c-AHYxrog_GvyG_Om4-2-PhND_9ABFrPj9QSiWb8rDN632z1uYsC_g",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -371,55 +190,19 @@
           "name": "lookup Auth",
           "request": {
             "auth": {
-              "type": "oauth2",
-              "oauth2": [
-                {
-                  "key": "clientSecret",
-                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
-                  "type": "string"
-                },
-                {
-                  "key": "clientId",
-                  "value": "hyperactive-challenge-cc",
-                  "type": "string"
-                },
-                {
-                  "key": "tokenName",
-                  "value": "clientcredentails_accesstoken",
-                  "type": "string"
-                },
-                {
-                  "key": "addTokenTo",
-                  "value": "header",
-                  "type": "string"
-                },
-                {
-                  "key": "client_authentication",
-                  "value": "body",
-                  "type": "string"
-                },
-                {
-                  "key": "scope",
-                  "value": "openid email profile",
-                  "type": "string"
-                },
-                {
-                  "key": "accessTokenUrl",
-                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
-                  "type": "string"
-                },
-                {
-                  "key": "grant_type",
-                  "value": "client_credentials",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI2RFJDam9rd2p5Q3AwbGMyZjJqSlRMSGtYQzBOWE5vc3VMcjlHQzRQRldVIn0.eyJleHAiOjE3NzE0NjcwNzEsImlhdCI6MTc3MTQ2NzAxMSwianRpIjoidHJydGNjOmM0MmU2YjFiLTk2MmQtYzQ5NS0xOWNmLWU3OGI0MzNhNTIyZiIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImEzZDYzZjYwLTE2ZWMtNGFjZS1hNzJjLTFlZDNjZDU4YWU4ZSIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwiY2FyZHMiLCJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50SG9zdCI6IjE5Mi4xNjguNjUuMSIsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC1oeXBlcmFjdGl2ZS1jaGFsbGVuZ2UtY2MiLCJjbGllbnRBZGRyZXNzIjoiMTkyLjE2OC42NS4xIiwiY2xpZW50X2lkIjoiaHlwZXJhY3RpdmUtY2hhbGxlbmdlLWNjIn0.nU_5QZiSVUx92D31Bgxejc-SOQBPT_ULJ91oT0lKDPGK5eRrHBrJIhOpWDMQvLWx1DSYxpvQxujIOAdZIgqS8hmGXsXTt4JG4BOMde-xd4eBXJ7mOrLdApvLRm9zSP-e1nSH7H1Tdgmaf-R73CMaVOMmg-8rLTq7jQKGUAsxMf6Bchq2Nr-VxZU7_kVx4cWt9nJL-BejzhLYmWpag3zysrF3l9xIPvnZ7XSUjg9y_UDMSGVcNP4MPJfYAylz_pdy6rU-sos95F-HjqUj5VW5LkFajrr-XnTqgpYhT6-PcfpTAdat9piXz7d_olOynwhnGfZ5mVL7j8yLq2U_Uqxoug",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"cardNumber\": \"4456897999999261\"\n}",
+              "raw": "{\n    \"cardNumber\": \"445681499999966\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -450,7 +233,7 @@
       ]
     },
     {
-      "name": "Authenticated",
+      "name": "Auth and Directly",
       "item": [
         {
           "name": "create card",
@@ -465,7 +248,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNaS1YWjd4Ty1IQVl1Sm5UeTU2SDlHZXI4MmctaHpyY1JEXzNrTTBLS01RIn0.eyJleHAiOjE3NzE0NDkyMDEsImlhdCI6MTc3MTQ0OTE0MSwianRpIjoib25ydHJvOjQ3MzVhOTA1LTg0NjQtNDQzMS02NjI1LWQ2ZGI5MTc1NjY0YyIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjUyNjM3ZGZmLTI1ZTAtNDExZS1hY2Y0LWNjYzIzZmM3NDhkOSIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6InBKak5SR0tLSXhfQjE2UXdaemVPR1ltQSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJBbGV4YW5kcmUgQ2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJBbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6IkNhbmRpZG8iLCJlbWFpbCI6ImFsZXhhbmRyZWNhbmRpZG9sNUBnbWFpbC5jb20ifQ.GgG9mE7IM-JBxf9EFde08A3V6CISmQ7VxfkG8hcvalrbESYgIVY3LKKdT4yGc5Xe90EgnGp3JJKxMSpULBkRoo0a--N0T6plvyVHao6FZfKNOas9lOVvm3OmwK0Rx1oEVhUYFQHq0QTINZaeF41jaAYSyxUNo6XOiSWXw2TfVtDGs9N8r2cFtOi9C-rX1lgPQlAmiRnw-YqSNs1-plLGq8zmBckOtzslIBxwcNFfhUnF0YDw1B-9kggKTK6yQE1IuqIWhXlA3PXjJeUqtKOtivu2ZJaU7Io9XgjBtQb0o_evgAK6iyEs6UInwO_uvsl7iD87J57xt2sO-U9du7WfPQ",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJUThfLXd5QVRKQ3R6UkhZWTY2ZFFKcnEwQ1pQTmhSeTBKdEJGbFlrcExVIn0.eyJleHAiOjE3NzE0NjQ3OTIsImlhdCI6MTc3MTQ2NDczMiwianRpIjoib25ydHJvOjJiZmE0MGI3LWY2MjItM2JlNy05Y2Y1LTNhMDY3ZmZiNTdhNSIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjJjZmQzZmRjLTg0N2EtNGI5OC1hMjBkLWE1NDAxY2NhZWRlNCIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6InIzM0FJb29NME1jbDBNNFBMVXlpM3BGUSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJhbGV4YW5kcmUgY2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJhbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6ImNhbmRpZG8iLCJlbWFpbCI6ImFsZUBnbWFpbC5jb20ifQ.SncNXb-P6m6Gb4qr9Xi572QLRODt4Xi0ePG9VWq3Bb2OVKXpc3dXaExzUZpop6C4PhrEzdCIJ8d9YNymKOJkhzdgsG4sAddmNlT6yko3JlYvVOAxCPYqtWGa29HkuTo5CYxPiI0ELAnSm7iOpCpS478OcpHJeaZ_Mh_2u1xktUXkmQOQMgsAauTD7BJfWKhmvB2Cyci5FqWnWBUhN9w0g266zsF5gYxqGAphMILha7IVWuMljFfoSdv31M-05Yy_-_oFLQj_BsgfTh04tVgx1sx7ZtqrQvbeASHr5OPD1G_1Q-afxzmljwI2in3cC7HAJsUcIJ5mAbBkAihwzqL1GA",
                 "type": "text"
               }
             ],
@@ -504,7 +287,7 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNaS1YWjd4Ty1IQVl1Sm5UeTU2SDlHZXI4MmctaHpyY1JEXzNrTTBLS01RIn0.eyJleHAiOjE3NzE0NDgxNDIsImlhdCI6MTc3MTQ0ODA4MiwianRpIjoib25ydHJvOjYyYzhhMjJhLTcxZWQtNmJhYy02N2MwLWFlYTMzMTAzNDUyOCIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjUyNjM3ZGZmLTI1ZTAtNDExZS1hY2Y0LWNjYzIzZmM3NDhkOSIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6IjR6ZlpVbEgyNV9qS0NRS1E0RWdfcW4xdyIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJBbGV4YW5kcmUgQ2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJBbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6IkNhbmRpZG8iLCJlbWFpbCI6ImFsZXhhbmRyZWNhbmRpZG9sNUBnbWFpbC5jb20ifQ.CI5JFIvrdrwIlSCnLQriN9gz1keXQaTBUCJCsEEDT8eR_mC2uwIyExv9Qo4agikwiMB2Vub4jnIEb97SlXZBp7aETuMd3vbp_QOBSkPedqC1LwJzOaFRm1jEdzn7mN8VdfXBI7DwWoDXoIsXSLAYvbfuqe2ypFUjaEXoJmnp1rqvf2WfATe2vAxutO_q_05TtenucEN2yTw_da0D6FJLhAHIH-H8sB8PGfmorZJ9iAn5ghs6o5PtshS0O4X5eYW1vn4gbKu9YD3x2wtISGZ-0605tkeUi7IjQnhw3seo0cAmr25GRAji-mMCycejmD8DcB_NFUth1WrYzIirkQc2kQ",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJUThfLXd5QVRKQ3R6UkhZWTY2ZFFKcnEwQ1pQTmhSeTBKdEJGbFlrcExVIn0.eyJleHAiOjE3NzE0NjQ3OTIsImlhdCI6MTc3MTQ2NDczMiwianRpIjoib25ydHJvOjJiZmE0MGI3LWY2MjItM2JlNy05Y2Y1LTNhMDY3ZmZiNTdhNSIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjJjZmQzZmRjLTg0N2EtNGI5OC1hMjBkLWE1NDAxY2NhZWRlNCIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6InIzM0FJb29NME1jbDBNNFBMVXlpM3BGUSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJhbGV4YW5kcmUgY2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJhbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6ImNhbmRpZG8iLCJlbWFpbCI6ImFsZUBnbWFpbC5jb20ifQ.SncNXb-P6m6Gb4qr9Xi572QLRODt4Xi0ePG9VWq3Bb2OVKXpc3dXaExzUZpop6C4PhrEzdCIJ8d9YNymKOJkhzdgsG4sAddmNlT6yko3JlYvVOAxCPYqtWGa29HkuTo5CYxPiI0ELAnSm7iOpCpS478OcpHJeaZ_Mh_2u1xktUXkmQOQMgsAauTD7BJfWKhmvB2Cyci5FqWnWBUhN9w0g266zsF5gYxqGAphMILha7IVWuMljFfoSdv31M-05Yy_-_oFLQj_BsgfTh04tVgx1sx7ZtqrQvbeASHr5OPD1G_1Q-afxzmljwI2in3cC7HAJsUcIJ5mAbBkAihwzqL1GA",
                 "type": "text"
               }
             ],
@@ -545,7 +328,7 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJNaS1YWjd4Ty1IQVl1Sm5UeTU2SDlHZXI4MmctaHpyY1JEXzNrTTBLS01RIn0.eyJleHAiOjE3NzE0MzcyMTAsImlhdCI6MTc3MTQzNzE1MCwianRpIjoib25ydHJvOjMwODNkMTExLWQ3NmMtM2JkNy0yYzFlLTQ0NDllYjRlOWY0OSIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjUyNjM3ZGZmLTI1ZTAtNDExZS1hY2Y0LWNjYzIzZmM3NDhkOSIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6Ijh0eWJSN1V5VVR1UHBvbEhNSzh4eHJTayIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJBbGV4YW5kcmUgQ2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJBbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6IkNhbmRpZG8iLCJlbWFpbCI6ImFsZXhhbmRyZWNhbmRpZG9sNUBnbWFpbC5jb20ifQ.RvKqo99pdeknCvMtPrj--HrO9tbl_sQGjR0IF9PLhZ79Kfs1vY8c7QgTOZ8exN2jS3iA7Pdjd5Uvd2Almbowr0F9ud-AFbt9sdXhHg2IXH6ksJZoVwe4BBZPUreL9lkusoetAPqkrpsNAt2B680IxxL74Yzx4pUcFzJjkECysxnr9YR2HJvzfoXwcv_N_TLy6YPMKJd4fOtS0ZcRXeWBF33jWzhukloJfUoHLsA1PIAID987Z8sOXAk1U3RqPmpA6tbBo5SdClrDXl-SZiplBeEkjGA8CqFrZ36XzyfYBYGFnC7he0zJRdWEMenZ30ysBhp5VTy_FtJlVFLiSIAH-g",
+                "value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJUThfLXd5QVRKQ3R6UkhZWTY2ZFFKcnEwQ1pQTmhSeTBKdEJGbFlrcExVIn0.eyJleHAiOjE3NzE0NjQ3OTIsImlhdCI6MTc3MTQ2NDczMiwianRpIjoib25ydHJvOjJiZmE0MGI3LWY2MjItM2JlNy05Y2Y1LTNhMDY3ZmZiNTdhNSIsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NzA4MC9yZWFsbXMvbWFzdGVyIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjJjZmQzZmRjLTg0N2EtNGI5OC1hMjBkLWE1NDAxY2NhZWRlNCIsInR5cCI6IkJlYXJlciIsImF6cCI6Imh5cGVyYWN0aXZlLWNoYWxsZW5nZS1jYyIsInNpZCI6InIzM0FJb29NME1jbDBNNFBMVXlpM3BGUSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbWFzdGVyIiwib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJhbGV4YW5kcmUgY2FuZGlkbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImFsZXhhbmRyZSIsImdpdmVuX25hbWUiOiJhbGV4YW5kcmUiLCJmYW1pbHlfbmFtZSI6ImNhbmRpZG8iLCJlbWFpbCI6ImFsZUBnbWFpbC5jb20ifQ.SncNXb-P6m6Gb4qr9Xi572QLRODt4Xi0ePG9VWq3Bb2OVKXpc3dXaExzUZpop6C4PhrEzdCIJ8d9YNymKOJkhzdgsG4sAddmNlT6yko3JlYvVOAxCPYqtWGa29HkuTo5CYxPiI0ELAnSm7iOpCpS478OcpHJeaZ_Mh_2u1xktUXkmQOQMgsAauTD7BJfWKhmvB2Cyci5FqWnWBUhN9w0g266zsF5gYxqGAphMILha7IVWuMljFfoSdv31M-05Yy_-_oFLQj_BsgfTh04tVgx1sx7ZtqrQvbeASHr5OPD1G_1Q-afxzmljwI2in3cC7HAJsUcIJ5mAbBkAihwzqL1GA",
                 "type": "text"
               }
             ],
@@ -619,49 +402,7 @@
           ],
           "request": {
             "auth": {
-              "type": "oauth2",
-              "oauth2": [
-                {
-                  "key": "clientSecret",
-                  "value": "yw5e1uylz7miQHLMPzx33xVXgiXyEEH2",
-                  "type": "string"
-                },
-                {
-                  "key": "clientId",
-                  "value": "hyperactive-challenge-cc",
-                  "type": "string"
-                },
-                {
-                  "key": "tokenName",
-                  "value": "clientcredentails_accesstoken",
-                  "type": "string"
-                },
-                {
-                  "key": "addTokenTo",
-                  "value": "header",
-                  "type": "string"
-                },
-                {
-                  "key": "client_authentication",
-                  "value": "body",
-                  "type": "string"
-                },
-                {
-                  "key": "scope",
-                  "value": "openid email profile",
-                  "type": "string"
-                },
-                {
-                  "key": "accessTokenUrl",
-                  "value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
-                  "type": "string"
-                },
-                {
-                  "key": "grant_type",
-                  "value": "client_credentials",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "method": "POST",
             "header": [],
@@ -682,7 +423,7 @@
                 },
                 {
                   "key": "client_secret",
-                  "value": "8duzxITlgLklhbgLZzVRqVgcmtaOTkrV",
+                  "value": "cvB1ypYpWvo2MMj2QAF4HuCZYvg2r7US",
                   "type": "text",
                   "uuid": "f228809d-31dc-4350-ac58-04c2ca5235a2"
                 },
