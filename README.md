@@ -27,14 +27,20 @@ curl --location '127.0.0.1:9000/api/card/v1/create' \
 }'
 ```
 
-Authentication
+Authentication:
 
-Method: Authorization: Bearer <JWT>
-Token must contain sub claim (UUID) → used as card owner identifier
-All operations are automatically scoped to the authenticated user
-No API keys or basic auth — JWT only
+Example cURL request to obtain the Access Token is provided below.
 
-Endpoints
+curl --location 'http://127.0.0.1:7080/realms/master/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'grant_type=password' \
+--data-urlencode 'client_id=hyperactive-challenge-cc' \
+--data-urlencode 'client_secret=xxxxxxxxxxxxxxxxxxxxx' \
+--data-urlencode 'username=alexandre' \
+--data-urlencode 'password=Challenge' \
+--data-urlencode 'scope=openid email profile'
+
+Endpoint
 POST /create
 Create one card record.
 Request body (application/json)
@@ -67,7 +73,7 @@ JSON
 ```
 Common errors: 400, 422 (business/validation rule)
 
-Endpoints
+Endpoint
 POST /upload
 Upload CSV or Excel file → batch process multiple cards.
 Request (multipart/form-data)
@@ -105,7 +111,7 @@ FAILED (200 OK)
     ]
 }
 ```
-Endpoints
+Endpoint
 POST /lookup
 Check if a card exists (scoped to the authenticated owner).
 Request body (application/json)
