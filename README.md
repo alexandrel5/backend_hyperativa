@@ -1,6 +1,6 @@
-# Hyperativa Cards API
+# Hyperativa Cards API Challenge
 
-API for managing credit/debit card records (single creation, batch upload via file, and lookup).
+API for managing credit/debit card records (single creation, batch upload by file, and lookup).
 
 **Base URL**  
 `127.0.0.1/api/cards/v1`
